@@ -27,7 +27,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "/api/auth/login",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/login`,
         form
       );
 

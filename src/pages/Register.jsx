@@ -27,7 +27,7 @@
       setLoading(true);
 
       try {
-        const res = await axios.post("/api/auth/register", form);
+        const res = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/auth/register`, form);
         // localStorage.setItem("token", res.data.token);
         console.log(res.data.msg);
         navigate("/login");

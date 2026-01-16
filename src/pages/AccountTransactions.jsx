@@ -19,7 +19,7 @@ const AccountTransactions = () => {
 
   const fetchTransactions = async () => {
     const res = await axios.get(
-      `/api/transaction/account/${accountId}`,
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/account/${accountId}`,
       {
         headers: { Authorization: `Bearer ${token}` }
       }
@@ -35,7 +35,7 @@ const AccountTransactions = () => {
 
   const fetchAccount = async () => {
   const res = await axios.get(
-    `/api/account/${accountId}`,
+    `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/${accountId}`,
     {
       headers: { Authorization: `Bearer ${token}` }
     }
@@ -66,7 +66,7 @@ useEffect(() => {
 
   try {
     await axios.delete(
-      `/api/transaction/${txId}/delete`,
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/${txId}/delete`,
       {
         headers: {
           Authorization: `Bearer ${token}`

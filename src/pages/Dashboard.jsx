@@ -20,7 +20,7 @@ const Dashboard = () => {
 
   const fetchAccounts = async () => {
     try {
-      const res = await axios.get("/api/account/fetch", 
+      const res = await axios.get( `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/fetch`, 
         {
           headers: {Authorization: `Bearer ${token}`}
         }
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   try {
     const res = await axios.post(
-      "/api/account/create",
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/create`,
       form,
       {
         headers: { Authorization: `Bearer ${token}` }
@@ -77,7 +77,7 @@ const Dashboard = () => {
 
     try {
       await axios.put(
-        `/api/account/${editAccount._id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/${editAccount._id}`,
         {
           accountName: editAccount.accountName,
           monthlySavingGoal: editAccount.monthlySavingGoal,
@@ -101,7 +101,7 @@ const Dashboard = () => {
     if(!window.confirm("Delete this account permanently?")) return;
     try {
       await axios.delete(
-        `/api/account/${id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/${id}`,
         {
           headers: {Authorization: `Bearer ${token}`}
         }

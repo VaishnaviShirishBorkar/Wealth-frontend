@@ -34,7 +34,7 @@ export default function Onboarding(){
 
   const handleSubmit = async (e) => {
     try {
-      await axios.post("/api/onboarding/save", 
+      await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/onboarding/save`, 
         {data},
         {
           headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}

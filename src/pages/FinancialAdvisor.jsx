@@ -20,7 +20,7 @@ const FinancialAdvisor = () => {
   const fetchChat = async () => {
   try {
     const res = await axios.get(
-      `/api/account/${accountId}/advisor/chat`,
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/${accountId}/advisor/chat`,
       {
         headers: {
           Authorization: `Bearer ${token}`
@@ -80,7 +80,7 @@ const sendMessage = async (text) => {
 
   try {
     const res = await axios.post(
-      `/api/account/${accountId}/advisor/chat`,
+      `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/account/${accountId}/advisor/chat`,
       {
         messages: [
           ...messages,

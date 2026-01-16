@@ -20,6 +20,23 @@ const CreateTransaction = () => {
     date: ""
   });
 
+  const CATEGORIES = [
+    "Groceries",
+    "Food",
+    "Rent",
+    "Travel",
+    "Education",
+    "Subscriptions",
+    "Shopping",
+    "Entertainment",
+    "Fuel",
+    "Medical",
+    "Salary",
+    "Misc",
+    "Work",
+    "Initial"
+  ];
+
   /* =========================
      PREFILL FOR EDIT MODE
   ========================= */
@@ -29,7 +46,7 @@ const CreateTransaction = () => {
     const fetchTransaction = async () => {
       try {
         const res = await axios.get(
-          `/api/transaction/${transactionId}`,
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/${transactionId}`,
           {
             headers: { Authorization: `Bearer ${token}` }
           }
@@ -68,7 +85,7 @@ const CreateTransaction = () => {
 
     try {
       const res = await axios.post(
-        "/api/transaction/extract",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/extract`,
         data,
         {
           headers: {
@@ -98,7 +115,7 @@ const CreateTransaction = () => {
   //   try {
   //     if (isEdit) {
   //       await axios.put(
-  //         `http://localhost:5001/api/transaction/${transactionId}/edit`,
+  //         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/${transactionId}/edit`,
   //         {
   //           ...form,
   //           accountId,
@@ -110,7 +127,7 @@ const CreateTransaction = () => {
 
   //     } else {
   //       await axios.delete(
-  //         `http://localhost:5001/api/transaction/${transactionId}/delete`,
+  //         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/${transactionId}/delete`,
   //         // {
   //         //   ...form,
   //         //   accountId
@@ -128,51 +145,51 @@ const CreateTransaction = () => {
   // };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    if (isEdit) {
-      // UPDATE
-      await axios.put(
-        `/api/transaction/${transactionId}/edit`,
-        {
-          ...form,
-          accountId
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
-    } else {
-      // CREATE (manual OR extracted – both work)
-      await axios.post(
-        "/api/transaction/create",
-        {
-          ...form,
-          accountId
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+    try {
+      if (isEdit) {
+        // UPDATE
+        await axios.put(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/${transactionId}/edit`,
+          {
+            ...form,
+            accountId
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+      } else {
+        // CREATE (manual OR extracted – both work)
+        await axios.post(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/create`,
+          {
+            ...form,
+            accountId
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` }
+          }
+        );
+      }
+
+      navigate(`/account/${accountId}`);
+    } catch (err) {
+      console.error("Transaction save failed", err);
+      alert("Failed to save transaction");
     }
-
-    navigate(`/account/${accountId}`);
-  } catch (err) {
-    console.error("Transaction save failed", err);
-    alert("Failed to save transaction");
-  }
-};
+  };
 
 
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this transaction?");
 
-    if(!confirmDelete) return;
+    if (!confirmDelete) return;
 
     try {
       await axios.delete(
-        `/api/transaction/${transactionId}/delete`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/api/transaction/${transactionId}/delete`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -203,7 +220,7 @@ const CreateTransaction = () => {
           {/* Image Upload */}
           <div>
             <label className="block font-medium mb-1">
-               Upload Bill / Receipt <span className="text-gray-400">(optional)</span>
+              Upload Bill / Receipt <span className="text-gray-400">(optional)</span>
             </label>
 
             <input
@@ -229,14 +246,21 @@ const CreateTransaction = () => {
             required
           />
 
-          <input
+          <select
             name="category"
-            placeholder="Category"
             className="w-full border px-4 py-2 rounded"
             value={form.category}
             onChange={handleChange}
             required
-          />
+          >
+            <option value="">Select category</option>
+            {CATEGORIES.map(cat => (
+              <option key={cat} value={cat}>
+                {cat}
+              </option>
+            ))}
+          </select>
+
 
           <select
             name="type"
